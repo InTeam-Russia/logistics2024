@@ -1,0 +1,15 @@
+FROM node:latest
+
+# Set up the working directory within the Docker image:
+WORKDIR /frontend
+
+# Copy the package.json and package-lock.json files to access the dependencies for the application:
+COPY package*.json ./
+# Run an install command to install the dependencies within Docker:
+RUN npm install
+# Copy all the project files to the working directory within the Docker image
+COPY ./ ./
+EXPOSE 3000
+
+# start app
+CMD ["npm", "start"]
