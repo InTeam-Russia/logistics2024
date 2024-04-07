@@ -6,9 +6,9 @@ services:
     container_name: postgres
     restart: always
     environment:
-     - POSTGRES_USER=hello_fastapi
-     - POSTGRES_PASSWORD=hello_fastapi
-     - POSTGRES_DB=hello_fastapi_dev
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=postgres
+     - POSTGRES_DB=logistic
     ports:
      - "5432:5432"
     volumes:
@@ -26,15 +26,15 @@ services:
       - .:/python/app
     command: ["uvicorn", "app.main:app", "--reload", "--workers", "1", "--host", "0.0.0.0", "--port", "8002"]
 
-  frontend:
-    build: ./frontend
-    container_name: frontend
-    ports:
-      - '80:3000'
-    volumes:
-      - ./frontend:/frontend
-    stdin_open: true
-    tty: true
+#  frontend:
+#    build: ./frontend
+#    container_name: frontend
+#    ports:
+#      - '80:3000'
+#    volumes:
+#      - ./frontend:/frontend
+#    stdin_open: true
+#    tty: true
 
   pgadmin:
     image: dpage/pgadmin4:8.5
@@ -49,12 +49,20 @@ services:
     depends_on:
       - db
 
-  go:
-    build: ./go
+#  go:
+#    build: ./go
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - ./go:/usr/local/go/src/
+  apache:
+    build: ./apache
+    container_name: apache_php
+    restart: always
     ports:
-      - "8080:8080"
+      - 8080:80
     volumes:
-      - ./go:/app
+      - ./apache/www:/htdocs
 
 
 networks:

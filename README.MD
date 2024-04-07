@@ -18,9 +18,9 @@ docker-compose run
 - 5432 -- postegres
 
 Данные для БД:
-- user: postegres
-- password: postegres
-- db: logistics
+- user: postgres
+- password: postgres
+- db: logistic
 
 Данные для pgAdmin:
 - email: admin@pgadmin.com
