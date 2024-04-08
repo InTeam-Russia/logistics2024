@@ -33,15 +33,15 @@ services:
       inteamnet:
         ipv4_address: 10.1.0.101
 
-#  frontend:
-#    build: ./frontend
-#    container_name: frontend
-#    ports:
-#      - '80:3000'
-#    volumes:
-#      - ./frontend:/frontend
-#    stdin_open: true
-#    tty: true
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - '80:3000'
+    volumes:
+      - ./frontend:/frontend
+    stdin_open: true
+    tty: true
 
   pgadmin:
     image: dpage/pgadmin4:8.5
@@ -53,6 +53,7 @@ services:
       - 15432:80
     volumes:
       - pgadmin:/var/lib/pgadmin
+#      - ./backup.sql:/var/lib/pgadmin/storage/admin_pgadmin.com/backup.sql
     depends_on:
       - db
     networks:
@@ -70,7 +71,7 @@ services:
     container_name: apache_php
     restart: always
     ports:
-      - 80:80
+      - 8080:80
     volumes:
       - ./apache/www:/htdocs
     networks:
