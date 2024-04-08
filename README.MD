@@ -60,10 +60,10 @@ GET /auth/whoami
 ```
 200 OK
 {
+	"id": айдишник,
+	"email": "почта",
 	"role": "client",
 	"data": {
-		"id": айдишник,
-		"email": "почта",
 		"name": "имя",
 		"surname": "фамилия",
 		"img": "путь к аватарке"
@@ -75,10 +75,10 @@ GET /auth/whoami
 ```
 200 OK
 {
+        "id": айдишник,
+        "email": "почта",
 	"role": "company",
 	"data": {
-		"id": айдишник,
-		"email" "почта",
 		"name": "название",
 		"img": "путь к аватарке"
 	}
