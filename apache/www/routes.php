@@ -1,8 +1,13 @@
 <?php
 use Pecee\SimpleRouter\SimpleRouter;
+use Pecee\Http\Request;
+use core\frontend;
+
+// https://github.com/skipperbent/simple-php-router/tree/master?tab=readme-ov-file#getting-restresource-controller-urls
 
 SimpleRouter::get('/', function() {
-    return 'Hello world';
+    $front = frontend::getInstance();
+    return $front->getResponseJson(["messaage" => "Hello world"]);
 });
 
 SimpleRouter::error(function(Request $request, \Exception $exception) {
