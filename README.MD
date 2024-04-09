@@ -86,7 +86,78 @@ GET /auth/whoami
 ```
 
 ### Методы php API
+#### /categories/{id}
+Запрос:
+```
+GET /categories/{id}
+```
+
+1. Ответ:
+```
+200 OK
+{
+	"id": айдишник,
+	"name": "Название категории",
+	"icon": true/false
+}
+```
+2. Ответ в случае подачи айдишника несуществующей категории
+```
+404 Not found
+{
+	"data": "Категория не существует"
+}
+```
+3. Ответ в случае ошибки иного рода
+```
+500 Internal server error
+{
+	"data": "Описание ошибки"
+}
+```
+
+#### /categories/all
+Отдаёт массив всех категорий.
+Запрос:
+```
+GET /categories/all
+```
+Ответ:
+```
+[
+	{
+		"id": айдишник, "name": название категории", "icon: true/false
+	},
+	...
+]{
+    "id": 1,
+    "company_id": 1,
+    "name": "Интим",
+    "price": 300000,
+    "amount": 0,
+    "size": "69 см x 300 см x 1488 см",
+    "img": null,
+    "category": 1,
+    "hidden": true,
+    "rating": null
+}
+```
+
+#### /categories/exists/{id}
+Проверяет, существует ли категория с заданным id
+Запрос:
+```
+GET /categories/exists/{id}
+```
+Ответ:
+```
+{
+	"result": true/false
+}
+```
+
 #### /products/add
+Добавляет продукт (метод для компаний).
 Запрос:
 ```
 PUT /products/add
@@ -116,4 +187,35 @@ PUT /products/add
 ```
 403 Forbidden
 []
+```
+
+#### /products/{id}
+Общедоступный метод, возвращает информацию о продукте.
+Запрос:
+```
+GET /products/{id}
+```
+
+Ответ:
+```
+200 OK
+{
+    "id": 1,
+    "company_id": 1,
+    "name": "Интим",
+    "price": 300000,
+    "amount": 0,
+    "size": "69 см x 300 см x 1488 см",
+    "img": null,
+    "category": 1,
+    "hidden": true,
+    "rating": null
+}
+```
+Ответ в случае ошибки:
+```
+500 Internal server error
+{
+        "data": "Описание ошибки"
+}
 ```

@@ -13,7 +13,7 @@ class userApi extends pythonApi
         /* todo дописать api
         $data = $this->sendRequest($cu);
         */
-        $data = json_decode('{ "role": "company", "data": { "id": 10, "email": "company@example.org", "name": "test_company", "img": "/static/companies/10/dasfs.jpg" } }', true);
+        $data = json_decode('{ "id": 1, "email": "company@example.org", "role": "company", "data": { "name": "test_company", "img": "/static/companies/10/dasfs.jpg" } }', true);
         return $data;
     }
 }
