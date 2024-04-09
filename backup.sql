@@ -42,9 +42,9 @@ ALTER TABLE public.cart OWNER TO postgres;
 --
 
 CREATE TABLE public.categories (
-    id integer NOT NULL,
-    name character varying(128),
-    icon boolean
+    id serial NOT NULL,
+    name character varying(128) NOT NULL,
+    icon boolean NOT NULL
 );
 
 
@@ -56,7 +56,7 @@ ALTER TABLE public.categories OWNER TO postgres;
 --
 
 CREATE TABLE public.cities (
-    id integer NOT NULL,
+    id serial NOT NULL,
     name character varying(255) NOT NULL
 );
 
@@ -69,10 +69,10 @@ ALTER TABLE public.cities OWNER TO postgres;
 --
 
 CREATE TABLE public.clients (
-    id integer NOT NULL,
-    name character varying(128),
+    id serial NOT NULL,
+    name character varying(128) NOT NULL,
     surname character varying(128),
-    photo boolean
+    photo boolean NOT NULL
 );
 
 
@@ -84,7 +84,7 @@ ALTER TABLE public.clients OWNER TO postgres;
 --
 
 CREATE TABLE public.companies (
-    id integer NOT NULL,
+    id serial NOT NULL,
     name character varying(255) NOT NULL,
     description text,
     logo character varying(255)
@@ -99,7 +99,7 @@ ALTER TABLE public.companies OWNER TO postgres;
 --
 
 CREATE TABLE public.feedback (
-    id integer NOT NULL,
+    id serial NOT NULL,
     client_id integer NOT NULL,
     product_id integer NOT NULL,
     rate integer NOT NULL,
@@ -131,7 +131,7 @@ ALTER TABLE public.infrastructure OWNER TO postgres;
 --
 
 CREATE TABLE public.orders (
-    id integer NOT NULL,
+    id serial NOT NULL,
     company_id integer NOT NULL,
     client_id integer NOT NULL,
     order_type integer NOT NULL,
@@ -166,9 +166,9 @@ COMMENT ON TABLE public.orders IS 'Заказы';
 --
 
 CREATE TABLE public.path_types (
-    id integer NOT NULL,
-    name character varying(128),
-    description text
+    id serial NOT NULL,
+    name character varying(128) NOT NULL,
+    description text NOT NULL
 );
 
 
@@ -189,15 +189,15 @@ COMMENT ON TABLE public.path_types IS 'Типы путей сообщения';
 --
 
 CREATE TABLE public.paths (
-    id integer NOT NULL,
-    company_id integer,
+    id serial NOT NULL,
+    company_id integer NOT NULL,
     departure integer NOT NULL,
     destination integer NOT NULL,
-    is_dest_transit boolean,
-    type integer,
-    duration double precision,
-    distance double precision,
-    price double precision
+    is_dest_transit boolean NOT NULL,
+    type integer NOT NULL,
+    duration double precision NOT NULL,
+    distance double precision NOT NULL,
+    price double precision NOT NULL
 );
 
 
@@ -209,7 +209,7 @@ ALTER TABLE public.paths OWNER TO postgres;
 --
 
 CREATE TABLE public.products (
-    id integer NOT NULL,
+    id serial NOT NULL,
     company_id integer NOT NULL,
     category integer,
     name character varying(255) NOT NULL,
@@ -230,7 +230,7 @@ ALTER TABLE public.products OWNER TO postgres;
 --
 
 CREATE TABLE public.route (
-    id integer NOT NULL,
+    id serial NOT NULL,
     order_id integer NOT NULL,
     edge integer NOT NULL,
     prev_stage integer,
@@ -281,7 +281,7 @@ COMMENT ON TABLE public.storage_products IS 'Распределение прод
 --
 
 CREATE TABLE public.users (
-    id integer NOT NULL,
+    id serial NOT NULL,
     email character varying(320) NOT NULL,
     password character varying(1024) NOT NULL,
     role integer NOT NULL
