@@ -129,18 +129,7 @@ GET /categories/all
 		"id": айдишник, "name": название категории", "icon: true/false
 	},
 	...
-]{
-    "id": 1,
-    "company_id": 1,
-    "name": "Интим",
-    "price": 300000,
-    "amount": 0,
-    "size": "69 см x 300 см x 1488 см",
-    "img": null,
-    "category": 1,
-    "hidden": true,
-    "rating": null
-}
+]
 ```
 
 #### /categories/exists/{id}
