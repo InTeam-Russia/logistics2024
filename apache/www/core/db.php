@@ -6,7 +6,7 @@ use \core\singleton;
 class db
 {
     use singleton;
-    public $pdo;
+    public \PDO $pdo;
     public function __construct() {
         $conStr = sprintf(
             "pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",

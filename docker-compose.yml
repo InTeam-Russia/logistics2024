@@ -28,6 +28,7 @@ services:
       - db
     volumes:
       - .:/python/app
+      - ./public:/public
     command: ["uvicorn", "app.main:app", "--reload", "--workers", "1", "--host", "0.0.0.0", "--port", "8002"]
     networks:
       inteamnet:
@@ -40,8 +41,12 @@ services:
       - '80:3000'
     volumes:
       - ./frontend:/frontend
+      - ./public:/public
     stdin_open: true
     tty: true
+    networks:
+      inteamnet:
+        ipv4_address: 10.1.0.104
 
   pgadmin:
     image: dpage/pgadmin4:8.5
@@ -74,6 +79,7 @@ services:
       - 8080:80
     volumes:
       - ./apache/www:/htdocs
+      - ./public:/public
     networks:
       inteamnet:
         ipv4_address: 10.1.0.103

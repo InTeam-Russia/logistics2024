@@ -7,13 +7,17 @@ use core\db;
 
 // https://github.com/skipperbent/simple-php-router/tree/master?tab=readme-ov-file#getting-restresource-controller-urls
 
-SimpleRouter::get('/', function() {
+/*SimpleRouter::get('/', function() {
     $front = frontend::getInstance();
-    return $front->getResponseJson(["messaage" => "Hello world"]);
-});
+    echo $front->getResponseJson(["messaage" => "Hello world"]);
+});*/
 
 //SimpleRouter::controller('/images', 'ImagesController');
-SimpleRouter::put('/products/add', [\controllers\Products::class, 'add']);
+SimpleRouter::post('/products/add', [\controllers\products::class, 'add']);
+SimpleRouter::get('/products/{id}', [\controllers\products::class, 'get']);
+SimpleRouter::get('/categories/all', [\controllers\categories::class, 'getAllCategories']);
+SimpleRouter::get('/categories/exists/{id}', [\controllers\categories::class, 'categoryExists']);
+SimpleRouter::get('/categories/{id}', [\controllers\categories::class, 'getCategory']);
 
 SimpleRouter::error(function(Request $request, \Exception $exception) {
     $front = frontend::getInstance();
