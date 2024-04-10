@@ -168,7 +168,7 @@ class product
         $filtersCount = count($filters);
         foreach ($filtersColumns as $filter => $column) {
             if(isset($filters[$filter])) {
-                $sql .= $filter;
+                $sql .= $column;
                 --$filtersCount;
                 if($filtersCount > 0) {
                     $sql .= ' AND';
