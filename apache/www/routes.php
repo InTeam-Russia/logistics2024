@@ -19,7 +19,8 @@ SimpleRouter::get('/categories/all', [\controllers\categories::class, 'getAllCat
 SimpleRouter::get('/categories/exists/{id}', [\controllers\categories::class, 'categoryExists']);
 SimpleRouter::get('/categories/find/{name}', [\controllers\categories::class, 'find']);
 SimpleRouter::get('/categories/{id}', [\controllers\categories::class, 'getCategory']);
-SimpleRouter::get('/catalog/search', [\controllers\catalog::class, 'search']);
+SimpleRouter::get('/geo/all', [\controllers\infrastructure::class, 'all']);
+SimpleRouter::get('/infrastructure/search', [\controllers\infrastructure::class, 'search']);
 
 SimpleRouter::error(function(Request $request, \Exception $exception) {
     $front = frontend::getInstance();
