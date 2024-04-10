@@ -99,4 +99,113 @@ class product
         }
         return $product;
     }
+
+
+
+    /**
+     * Выполняет поиск по товарам с фильтрами и постраничной пагинацией
+     * @param array $filters Фильтры (company_id, category, max_price, min_price, max_amount, min_amount, name)
+     * @param int $page Номер страницы (по умолчанию 1)
+     * @param int $perPage Товаров на страницу (по умолчанию 25)
+     * @return array
+     * @throws \Exception execute или fetchAll
+     */
+    public static function filteredSearch(array $filters, int $page = 1, int $perPage = 25) {
+        $sql = 'SELECT * FROM products';
+        $sth = self::bindFilters($sql, $filters, true, $page, $perPage);
+        $sth->setFetchMode(\PDO::FETCH_CLASS, '\models\product');
+        $result = $sth->fetchAll();
+        if($result === false) {
+            throw new \Exception('Не могу обработать результат поиска');
+        }
+        return $result;
+    }
+
+    /**
+     * Подсчитывает количество совпадений для поискового запроса
+     * @param array $filters фильтры (company_id, category, max_price, min_price, max_amount, min_amount, name)
+     * @param int $page номер страницы
+     * @param int $perPage товаров на странице
+     * @return int количество совпадений
+     * @throws \Exception Не могу обработать результат поиска
+     * @throws \Exception Не могу скомпилировать поисковый запрос
+     * @throws \Exception Не могу выполнить поиск по продукции
+     */
+    public static function filteredSearchCount(array $filters) : int {
+        $sql = 'SELECT COUNT(*) FROM products';
+        $sth = self::bindFilters($sql, $filters, false);
+        $result = $sth->fetch(\PDO::FETCH_NUM);
+        if($result === false) {
+            throw new \Exception('Не могу обработать результат поиска');
+        }
+        return $result[0];
+    }
+
+    /**
+     * Достраивает поисковый вопрос начиная с WHERE согласно заданным фильтрам
+     * @param string $sql часть SQL-запроса до WHERE
+     * @param array $filters массив фильтров
+     * @param bool $pagination нужна ли пагинация?
+     * @param int $page номер страницы
+     * @param int $perPage товаров на странице
+     * @return \PDOStatement executed запрос
+     * @throws \Exception
+     */
+    private static function bindFilters(string $sql, array $filters, bool $pagination, int $page = 1, int $perPage = 25) : \PDOStatement {
+        $db = db::getInstance();
+        if(!empty($filters)) {
+            $sql .= ' WHERE';
+        }
+        $filtersColumns = [
+            'company_id'   => ' company_id = :company_id',
+            'category'     => ' category = :category',
+            'min_price'    => ' price >= :min_price',
+            'max_price'    => ' price <= :max_price',
+            'min_amount'   => ' amount >= :min_amount',
+            'max_amount'   => ' amount <= :max_amount',
+            'name'         => ' name LIKE :name'
+        ];
+        $filtersCount = count($filters);
+        foreach ($filtersColumns as $filter => $column) {
+            if(isset($filters[$filter])) {
+                $sql .= $filter;
+                --$filtersCount;
+                if($filtersCount > 0) {
+                    $sql .= ' AND';
+                } else {
+                    break;
+                }
+            }
+        }
+        if($pagination) {
+            $start = ($page - 1) * $perPage;
+            $sql .= ' LIMIT ' . $perPage . ' OFFSET ' . $start;
+        }
+        $sth = $db->pdo->prepare($sql);
+        if($sth === false) {
+            throw new \Exception("Не могу скомпилировать поисковый запрос");
+        }
+        $binds = [
+            'company_id'   => \PDO::PARAM_INT,
+            'category'     => \PDO::PARAM_INT,
+            'min_price'    => \PDO::PARAM_STR,
+            'max_price'    => \PDO::PARAM_STR,
+            'min_amount'   => \PDO::PARAM_INT,
+            'max_amount'   => \PDO::PARAM_INT,
+            'name'         => \PDO::PARAM_STR
+        ];
+        foreach($binds as $bind => $type) {
+            if(isset($filters[$bind]) && !is_null($filters[$bind])) {
+                $sth->bindValue(':' . $bind, $filters[$bind], $type);
+            }
+        }
+        if(isset($filters['name']) && !is_null($filters['name'])) {
+            $sth->bindValue(':name', '%' . str_replace('%', '\%', $filters['name']) . '%');
+        }
+        if(!$sth->execute()) {
+            throw new \Exception("Не могу выполнить поиск по продукции");
+        }
+        return $sth;
+    }
+
 }
