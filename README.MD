@@ -145,6 +145,24 @@ GET /categories/exists/{id}
 }
 ```
 
+#### /categories/find/{name}
+Выполняет поиск по имени категории. Запрос:
+```
+GET /categories/find/азн
+```
+
+Ответ:
+```
+200 OK
+[
+    {
+        "id": 1,
+        "name": "Разное",
+        "icon": false
+    }
+]
+```
+
 #### /products/add
 Добавляет продукт (метод для компаний).
 Запрос:

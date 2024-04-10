@@ -3,6 +3,7 @@
 namespace controllers;
 
 use core\frontend;
+use core\propertyException;
 use core\responseType;
 use core\singleton;
 use core\db;
@@ -53,6 +54,25 @@ class categories
         try {
             $cats = category::getAll();
             echo frontend::getInstance()->getResponseJson($cats);
+        } catch (\Exception $ex) {
+            echo frontend::getInstance()->getErrorJson(responseType::InternalError, [
+                'data' => $ex->getMessage()
+            ]);
+        }
+    }
+
+    public function find($name) {
+        try {
+            if(!is_string($name) || empty($name)) {
+                throw new propertyException("Некорректное имя");
+            }
+            $name = str_replace('_', ' ', $name);
+            $result = category::find($name);
+            echo frontend::getInstance()->getResponseJson($result);
+        } catch(propertyException $ex) {
+            echo frontend::getInstance()->getErrorJson(responseType::InvalidProperty, [
+                'data' => $ex->getMessage()
+            ]);
         } catch (\Exception $ex) {
             echo frontend::getInstance()->getErrorJson(responseType::InternalError, [
                 'data' => $ex->getMessage()

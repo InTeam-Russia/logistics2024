@@ -67,4 +67,20 @@ class category
         return $array;
     }
 
+    public static function find(string $name) {
+        $db = db::getInstance();
+        $name = '%' . str_replace('%', '\%', $name) . '%';
+        $sth = $db->pdo->prepare("SELECT * FROM public.categories WHERE name LIKE :name");
+        $sth->bindValue(':name', $name);
+        if(!$sth->execute()) {
+            throw new \Exception("Не могу выполнить поиск");
+        }
+        $sth->setFetchMode(\PDO::FETCH_CLASS, '\models\category');
+        $array = $sth->fetchAll();
+        if($array === false) {
+            throw new \Exception("Не могу прочитать результат поиска");
+        }
+        return $array;
+    }
+
 }

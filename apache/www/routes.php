@@ -17,6 +17,7 @@ SimpleRouter::post('/products/add', [\controllers\products::class, 'add']);
 SimpleRouter::get('/products/{id}', [\controllers\products::class, 'get']);
 SimpleRouter::get('/categories/all', [\controllers\categories::class, 'getAllCategories']);
 SimpleRouter::get('/categories/exists/{id}', [\controllers\categories::class, 'categoryExists']);
+SimpleRouter::get('/categories/find/{name}', [\controllers\categories::class, 'find']);
 SimpleRouter::get('/categories/{id}', [\controllers\categories::class, 'getCategory']);
 
 SimpleRouter::error(function(Request $request, \Exception $exception) {
