@@ -267,3 +267,21 @@ GET /catalog/search?фильтры
 - `total_pages` - всего страниц
 - `total_products` - всего найденных товаров
 - `result` - массив с товарами (см. /products/{id})
+
+#### /cities/all
+Получает массив городов. Запрос:
+```
+GET /cities/all
+```
+
+Ответ:
+```
+[
+    {
+        "id": 1,
+        "name": "Абаза",
+        "arms": "/public/cities/25px-Coat_of_Arms_of_Abaza_%28Khakassia%29.webp"
+    },
+    ...
+]
+```

@@ -2,7 +2,7 @@
 
 namespace controllers;
 
-class geo
+class cities
 {
     /**
      * Получает массив городов
@@ -11,6 +11,6 @@ class geo
      */
     public function all() {
         $result = \models\city::getAll();
-        return $result;
+        return \core\frontend::getInstance()->getResponseJson($result);
     }
 }
