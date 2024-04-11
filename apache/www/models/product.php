@@ -112,7 +112,7 @@ class product
      */
     public static function filteredSearch(array $filters, int $page = 1, int $perPage = 25) {
         $sql = 'SELECT * FROM products';
-        $sth = self::bindFilters($sql, $filters, true, $page, $perPage);
+        $sth = self::bindProductFilters($sql, $filters, true, $page, $perPage);
         $sth->setFetchMode(\PDO::FETCH_CLASS, '\models\product');
         $result = $sth->fetchAll();
         if($result === false) {
@@ -133,7 +133,7 @@ class product
      */
     public static function filteredSearchCount(array $filters) : int {
         $sql = 'SELECT COUNT(*) FROM products';
-        $sth = self::bindFilters($sql, $filters, false);
+        $sth = self::bindProductFilters($sql, $filters, false);
         $result = $sth->fetch(\PDO::FETCH_NUM);
         if($result === false) {
             throw new \Exception('Не могу обработать результат поиска');
@@ -151,11 +151,7 @@ class product
      * @return \PDOStatement executed запрос
      * @throws \Exception
      */
-    private static function bindFilters(string $sql, array $filters, bool $pagination, int $page = 1, int $perPage = 25) : \PDOStatement {
-        $db = db::getInstance();
-        if(!empty($filters)) {
-            $sql .= ' WHERE';
-        }
+    private static function bindProductFilters(string $sql, array $filters, bool $pagination, int $page = 1, int $perPage = 25) : \PDOStatement {
         $filtersColumns = [
             'company_id'   => ' company_id = :company_id',
             'category'     => ' category = :category',
@@ -165,26 +161,7 @@ class product
             'max_amount'   => ' amount <= :max_amount',
             'name'         => ' name LIKE :name'
         ];
-        $filtersCount = count($filters);
-        foreach ($filtersColumns as $filter => $column) {
-            if(isset($filters[$filter])) {
-                $sql .= $column;
-                --$filtersCount;
-                if($filtersCount > 0) {
-                    $sql .= ' AND';
-                } else {
-                    break;
-                }
-            }
-        }
-        if($pagination) {
-            $start = ($page - 1) * $perPage;
-            $sql .= ' LIMIT ' . $perPage . ' OFFSET ' . $start;
-        }
-        $sth = $db->pdo->prepare($sql);
-        if($sth === false) {
-            throw new \Exception("Не могу скомпилировать поисковый запрос");
-        }
+
         $binds = [
             'company_id'   => \PDO::PARAM_INT,
             'category'     => \PDO::PARAM_INT,
@@ -192,20 +169,9 @@ class product
             'max_price'    => \PDO::PARAM_STR,
             'min_amount'   => \PDO::PARAM_INT,
             'max_amount'   => \PDO::PARAM_INT,
-            'name'         => \PDO::PARAM_STR
+            'name'         => 'STR_FRAGMENT'
         ];
-        foreach($binds as $bind => $type) {
-            if(isset($filters[$bind]) && !is_null($filters[$bind])) {
-                $sth->bindValue(':' . $bind, $filters[$bind], $type);
-            }
-        }
-        if(isset($filters['name']) && !is_null($filters['name'])) {
-            $sth->bindValue(':name', '%' . str_replace('%', '\%', $filters['name']) . '%');
-        }
-        if(!$sth->execute()) {
-            throw new \Exception("Не могу выполнить поиск по продукции");
-        }
-        return $sth;
+        return db::getInstance()->bindFilters($sql, $filters, $filtersColumns, $binds, $pagination, $page, $perPage);
     }
 
 }

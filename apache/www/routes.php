@@ -20,7 +20,8 @@ SimpleRouter::get('/categories/exists/{id}', [\controllers\categories::class, 'c
 SimpleRouter::get('/categories/find/{name}', [\controllers\categories::class, 'find']);
 SimpleRouter::get('/categories/{id}', [\controllers\categories::class, 'getCategory']);
 SimpleRouter::get('/cities/all', [\controllers\cities::class, 'all']);
-SimpleRouter::get('/infrastructure/search', [\controllers\infrastructure::class, 'search']);
+SimpleRouter::get('/cities/search', [\controllers\cities::class, 'search']);
+SimpleRouter::get('/cities/{id}', [\controllers\cities::class, 'get']);
 
 SimpleRouter::error(function(Request $request, \Exception $exception) {
     $front = frontend::getInstance();
