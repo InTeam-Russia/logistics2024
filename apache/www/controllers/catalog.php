@@ -8,7 +8,7 @@ use models\category;
 use models\company;
 use models\product;
 
-class infrastructure
+class catalog
 {
     /**
      * проверяет корректность id категории и возвращает его

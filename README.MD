@@ -285,3 +285,73 @@ GET /cities/all
     ...
 ]
 ```
+#### /cities/search
+Выполняет поиск по городам. Запрос:
+```
+GET /cities/search
+name=атов
+```
+
+Ответ:
+```
+200 OK
+{
+    "total_cities": 8,
+    "result": [
+        {
+            "id": 42,
+            "name": "Ардатов",
+            "arms": "/public/cities/25px-Coat_of_Arms_of_Ardatov_%282011%29.webp"
+        },
+        {
+            "id": 226,
+            "name": "Горбатов",
+            "arms": "/public/cities/25px-Gorbatov_COA_%28Nizhny_Novgorod_Governorate%29_%281781%29.webp"
+        },
+        {
+            "id": 256,
+            "name": "Далматово",
+            "arms": "/public/cities/25px-Coat_of_Arms_of_Dalmatovo_%282006%29.webp"
+        },
+        {
+            "id": 372,
+            "name": "Ипатово",
+            "arms": "/public/cities/25px-Coat_of_arms_of_Ipatovsky_rayon_%28Stavropol_krai%29.svg.webp"
+        },
+        {
+            "id": 498,
+            "name": "Красноармейск (Саратовская область)",
+            "arms": "/public/cities/25px-Coat_of_Arms_of_Krasnoarmeysk_%28Saratov_oblast%29.webp"
+        },
+        {
+            "id": 544,
+            "name": "Курчатов",
+            "arms": "/public/cities/25px-Coat_of_Arms_of_Kurchatov_%28Kursk_oblast%29.webp"
+        },
+        {
+            "id": 889,
+            "name": "Саратов",
+            "arms": "/public/cities/25px-Coat_of_Arms_of_Saratov.webp"
+        },
+        {
+            "id": 896,
+            "name": "Сватово",
+            "arms": "/public/cities/Coat_of_arms_of_Lugansk_People%27s_Republic.svg/261px-Coat_of_arms_of_Lugansk_People%27s_Republic.svg.webp"
+        }
+    ]
+}
+```
+#### /cities/{id}
+Получает информацию о городе по id. Запрос:
+```
+GET /ctites/{id}
+```
+
+Ответ:
+```
+{
+    "id": 889,
+    "name": "Саратов",
+    "arms": "/public/cities/25px-Coat_of_Arms_of_Saratov.webp"
+}
+```
