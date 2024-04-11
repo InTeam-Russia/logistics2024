@@ -129,7 +129,7 @@ class product
      * @return int количество совпадений
      * @throws \Exception Не могу обработать результат поиска
      * @throws \Exception Не могу скомпилировать поисковый запрос
-     * @throws \Exception Не могу выполнить поиск по продукции
+     * @throws \Exception Не могу выполнить поиск
      */
     public static function filteredSearchCount(array $filters) : int {
         $sql = 'SELECT COUNT(*) FROM products';

@@ -46,6 +46,32 @@ class city
         return $result;
     }
 
+
+    /**
+     * Проверяет, существует ли город с заданным id
+     * @param int $id id города
+     * @return bool
+     * @throws \Exception prepare: Не могу скомпилировать запрос города
+     * @throws \Exception execute: Не могу запросить данные о городе
+     * @throws \Exception fetch: Не могу получить данные о существовании города
+     */
+    public static function exists(int $id) : bool {
+        $db = db::getInstance();
+        $sth = $db->pdo->prepare('SELECT COUNT(*) FROM cities WHERE id = :id');
+        if(!$sth) {
+            throw new \Exception("Не могу скомпилировать запрос города");
+        }
+        $sth->bindParam(':id', $id, \PDO::PARAM_INT);
+        if(!$sth->execute()) {
+            throw new \Exception("Не могу запросить данные о городе");
+        }
+        $result = $sth->fetch(\PDO::FETCH_NUM);
+        if($result === false) {
+            throw new \Exception("Не могу получить данные о существовании города");
+        }
+        return $result[0] > 0;
+    }
+
     /**
      * @return array Массив с городами
      * @throws \Exception pdo->prepare: Не могу подготовить запрос
