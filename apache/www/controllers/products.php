@@ -7,7 +7,7 @@ use core\responseType;
 use core\singleton;
 use models\category;
 use models\product;
-use models\userApi;
+use models\user;
 use core\frontend;
 
 class products
@@ -64,10 +64,10 @@ class products
     }
 
     public function add() {
-        $user = userApi::getInstance();
+        $user = user::getInstance();
         $frontend = frontend::getInstance();
-        $whoami = $user->whoami();
-        if($whoami['role'] == 'guest') {
+        $whoami = $user->is_authorised();
+        if(!isset($whoami['role'])) {
             echo $frontend->getErrorJson(\core\responseType::NotAuthorized);
             return;
         } else if($whoami['role'] != 'company') {

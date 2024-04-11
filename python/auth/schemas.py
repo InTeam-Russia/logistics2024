@@ -5,7 +5,7 @@ from fastapi_users import schemas
 class UserRead(schemas.BaseUser[int]):
     id: int
     email: str
-    password: str
+    hashed_password: str
     role: int
     is_active: bool = True
     is_superuser: bool = False
@@ -14,7 +14,7 @@ class UserRead(schemas.BaseUser[int]):
 
 class UserCreate(schemas.BaseUserCreate):
     email: str
-    password: str
+    hashed_password: str
     role: int
     is_active: Optional[bool] = True
     is_superuser: Optional[bool] = False
