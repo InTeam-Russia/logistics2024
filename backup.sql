@@ -118,7 +118,7 @@ CREATE TABLE public.clients (
     id integer NOT NULL,
     name character varying(128) NOT NULL,
     surname character varying(128),
-    photo boolean NOT NULL
+    photo character varying(512) NOT NULL
 );
 
 
@@ -487,7 +487,7 @@ COMMENT ON TABLE public.storage_products IS 'Распределение прод
 CREATE TABLE public.users (
     id integer NOT NULL,
     email character varying(320) NOT NULL,
-    password character varying(1024) NOT NULL,
+    hashed_password character varying(1024) NOT NULL,
     role integer NOT NULL,
     is_active boolean DEFAULT true NOT NULL,
     is_superuser boolean DEFAULT false NOT NULL,
@@ -1847,6 +1847,7 @@ COPY public.feedback (id, client_id, product_id, rate, description, photos) FROM
 --
 
 COPY public.infrastructure (company_id, city, storage, dp) FROM stdin;
+1	889	f	f
 \.
 
 
@@ -1903,7 +1904,7 @@ COPY public.storage_products (company_id, city_id, product_id, amount) FROM stdi
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, email, password, role, is_active, is_superuser, is_verified) FROM stdin;
+COPY public.users (id, email, hashed_password, role, is_active, is_superuser, is_verified) FROM stdin;
 1	gremlin@kremlin.ru	wagner	0	t	f	f
 \.
 
